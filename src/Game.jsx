@@ -13,11 +13,18 @@ const Game = ({ mode }) => {
   const [revealedLetters, setRevealedLetters] = useState([]);
   const [isRevealing, setIsRevealing] = useState(false);
   const [letterColors, setLetterColors] = useState({});
+  const [timeLeft, setTimeLeft] = useState(null);
+  const [dailyCompleted, setDailyCompleted] = useState(false); // Nowy stan
   const inputRef = useRef(null);
 
   useEffect(() => {
     if (mode === "daily") {
       fetchDailyWord();
+      calculateTimeUntilMidnight();
+      const savedCompletion = localStorage.getItem("dailyCompleted");
+      if (savedCompletion === "true") {
+        setDailyCompleted(true);
+      }
     } else {
       fetchNewWord();
     }
@@ -29,6 +36,29 @@ const Game = ({ mode }) => {
       inputRef.current?.focus();
     }
   }, [isRevealing]);
+
+  useEffect(() => {
+    if (mode === "daily") {
+      const interval = setInterval(() => {
+        calculateTimeUntilMidnight();
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [mode]);
+
+  const calculateTimeUntilMidnight = () => {
+    const now = new Date();
+    const nextMidnight = new Date();
+    nextMidnight.setUTCHours(0, 0, 0, 0);
+    nextMidnight.setUTCDate(nextMidnight.getUTCDate() + 1);
+
+    const diff = nextMidnight - now;
+    const hours = Math.floor(diff / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+
+    setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+  };
 
   const resetGameState = () => {
     setAttempts([]);
@@ -68,13 +98,14 @@ const Game = ({ mode }) => {
           : "PUZZLE";
 
       localStorage.setItem("dailyWord", JSON.stringify({ date: today, word }));
+      localStorage.setItem("dailyCompleted", "false"); // Resetuj stan dailyCompleted na nowy dzień
+      setDailyCompleted(false);
       setTargetWord(word);
     } catch (error) {
       console.error("Error fetching word:", error);
       setTargetWord("PUZZLE");
     }
   };
-
   const fetchNewWord = async () => {
     try {
       const response = await fetch(ENGLISH_API);
@@ -99,9 +130,9 @@ const Game = ({ mode }) => {
   };
 
   const handleInputChange = (e) => {
-    if (isRevealing) return;
-    const value = e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
-    setGuess(value);
+    const value = e.target.value.toUpperCase();
+    const filteredValue = value.replace(/[^A-ZĄĆĘŁŃÓŚŹŻ]/g, "");
+    setGuess(filteredValue);
   };
 
   const getLetterColor = (letter, index) => {
@@ -145,10 +176,14 @@ const Game = ({ mode }) => {
         setMessage("🎉 Congratulations! You won!");
         setGameOver(true);
         playSound("/sounds/win.mp3");
+        setDailyCompleted(true);
+        localStorage.setItem("dailyCompleted", "true"); // Zapisz stan ukończenia gry
       } else if (currentRow === 5) {
         setMessage(`💀 You lost! The word was: ${targetWord}`);
         setGameOver(true);
         playSound("/sounds/lose.mp3");
+        setDailyCompleted(true);
+        localStorage.setItem("dailyCompleted", "true"); // Zapisz stan ukończenia gry
       } else {
         setCurrentRow(currentRow + 1);
         playSound("/sounds/error.mp3");
@@ -164,54 +199,74 @@ const Game = ({ mode }) => {
 
   return (
     <div className={`game-container ${mode}`}>
-      <div className="attempts">
-        {Array.from({ length: 6 }).map((_, rowIndex) => (
-          <div key={rowIndex} className="word">
-            {Array.from({ length: 6 }).map((_, i) => {
-              const letterData = revealedLetters.find(
-                (l) => l.rowIndex === rowIndex && l.index === i
-              );
-              const letter = letterData
-                ? letterData.letter
-                : attempts[rowIndex]?.[i] || "";
-              const bgColor = letterColors[`${rowIndex}-${i}`] || "transparent";
-              const flipClass = letterData ? "flip" : "";
-
-              return (
-                <span
-                  key={i}
-                  className={`letter-box ${flipClass}`}
-                  style={{ backgroundColor: bgColor }}
-                >
-                  {letter}
-                </span>
-              );
-            })}
-          </div>
-        ))}
-      </div>
-
-      {!gameOver && (
-        <div className="input-container">
-          <input
-            ref={inputRef}
-            type="text"
-            value={guess}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            maxLength={6}
-            disabled={isRevealing}
-          />
-          <button onClick={handleSubmit} disabled={isRevealing}>
-            Check
-          </button>
+      {/* Info o rozegranym trybie daily i czasie do nowego słowa */}
+      {mode === "daily" && (gameOver || dailyCompleted) && (
+        <div className="daily-info">
+          <p>
+            🔒 Daily word: <strong>{targetWord}</strong>
+          </p>
+          <p>
+            🕛 New word in: <strong>{timeLeft}</strong>
+          </p>
         </div>
       )}
 
+      {/* Ukrywamy wiersze i input po rozegraniu trybu daily */}
+      {!(mode === "daily" && dailyCompleted) && (
+        <>
+          <div className="attempts">
+            {Array.from({ length: 6 }).map((_, rowIndex) => (
+              <div key={rowIndex} className="word">
+                {Array.from({ length: 6 }).map((_, i) => {
+                  const letterData = revealedLetters.find(
+                    (l) => l.rowIndex === rowIndex && l.index === i
+                  );
+                  const letter = letterData
+                    ? letterData.letter
+                    : attempts[rowIndex]?.[i] || "";
+                  const bgColor =
+                    letterColors[`${rowIndex}-${i}`] || "transparent";
+                  const flipClass = letterData ? "flip" : "";
+
+                  return (
+                    <span
+                      key={i}
+                      className={`letter-box ${flipClass}`}
+                      style={{ backgroundColor: bgColor }}
+                    >
+                      {letter}
+                    </span>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+
+          {!gameOver && (
+            <div className="input-container">
+              <input
+                ref={inputRef}
+                type="text"
+                value={guess}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+                maxLength={6}
+                disabled={isRevealing}
+              />
+              <button onClick={handleSubmit} disabled={isRevealing}>
+                Check
+              </button>
+            </div>
+          )}
+        </>
+      )}
+
       {gameOver && (
-        <div className="popup">
-          <p>{message}</p>
-          <button onClick={() => resetGameState()}>Play again</button>
+        <div className="popup-overlay" onClick={resetGameState}>
+          <div className="popup" onClick={(e) => e.stopPropagation()}>
+            <p>{message}</p>
+            <button onClick={resetGameState}>Play Again</button>
+          </div>
         </div>
       )}
     </div>
