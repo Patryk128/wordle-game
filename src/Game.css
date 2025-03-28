@@ -196,3 +196,35 @@ button:disabled {
   font-weight: bold;
   transform: scale(1.1);
 }
+
+@media (max-width: 768px) {
+  .letter-box {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 16px;
+  }
+
+  .input-container input {
+    font-size: 14px;
+    width: 100px;
+  }
+
+  .input-container button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .popup {
+    max-width: 250px;
+  }
+
+  .popup p {
+    font-size: 16px;
+  }
+
+  .popup button {
+    font-size: 13px;
+    padding: 7px 14px;
+  }
+}
