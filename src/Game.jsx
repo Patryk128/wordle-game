@@ -14,19 +14,19 @@ const Game = ({ mode }) => {
   const [isRevealing, setIsRevealing] = useState(false);
   const [letterColors, setLetterColors] = useState({});
   const [timeLeft, setTimeLeft] = useState(null);
-  const [dailyCompleted, setDailyCompleted] = useState(false); // Nowy stan
+  const [dailyCompleted, setDailyCompleted] = useState(false);
   const inputRef = useRef(null);
 
   useEffect(() => {
     if (mode === "daily") {
-      fetchDailyWord();
+      fetchWord(true);
       calculateTimeUntilMidnight();
       const savedCompletion = localStorage.getItem("dailyCompleted");
       if (savedCompletion === "true") {
         setDailyCompleted(true);
       }
     } else {
-      fetchNewWord();
+      fetchWord();
     }
     resetGameState();
   }, [mode]);
@@ -39,26 +39,28 @@ const Game = ({ mode }) => {
 
   useEffect(() => {
     if (mode === "daily") {
-      const interval = setInterval(() => {
-        calculateTimeUntilMidnight();
-      }, 1000);
+      calculateTimeUntilMidnight();
+      const interval = setInterval(calculateTimeUntilMidnight, 1000);
       return () => clearInterval(interval);
     }
   }, [mode]);
 
   const calculateTimeUntilMidnight = () => {
     const now = new Date();
-    const nextMidnight = new Date();
-    nextMidnight.setUTCHours(0, 0, 0, 0);
-    nextMidnight.setUTCDate(nextMidnight.getUTCDate() + 1);
+    const nextMidnight = new Date(now);
+    nextMidnight.setUTCHours(24, 0, 0, 0);
 
     const diff = nextMidnight - now;
-    const hours = Math.floor(diff / 3600000);
-    const minutes = Math.floor((diff % 3600000) / 60000);
-    const seconds = Math.floor((diff % 60000) / 1000);
-
-    setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+    setTimeLeft(new Date(diff).toISOString().substr(11, 8));
   };
+
+  const sounds = {
+    win: "/sounds/win.mp3",
+    lose: "/sounds/lose.mp3",
+    error: "/sounds/error.mp3",
+  };
+
+  const playSound = (type) => new Audio(sounds[type]).play();
 
   const resetGameState = () => {
     setAttempts([]);
@@ -71,19 +73,21 @@ const Game = ({ mode }) => {
     setGuess("");
 
     if (mode === "endless") {
-      fetchNewWord(); // Pobierz nowe słowo tylko w trybie endless
+      fetchWord();
     }
 
     setTimeout(() => inputRef.current?.focus(), 100);
   };
 
-  const fetchDailyWord = async () => {
+  const fetchWord = async (isDaily = false) => {
     const today = new Date().toISOString().split("T")[0];
-    const savedWordData = JSON.parse(localStorage.getItem("dailyWord"));
 
-    if (savedWordData && savedWordData.date === today) {
-      setTargetWord(savedWordData.word);
-      return;
+    if (isDaily) {
+      const savedWordData = JSON.parse(localStorage.getItem("dailyWord"));
+      if (savedWordData && savedWordData.date === today) {
+        setTargetWord(savedWordData.word);
+        return;
+      }
     }
 
     try {
@@ -92,41 +96,26 @@ const Game = ({ mode }) => {
       const words = data
         .map((w) => w.word.toUpperCase())
         .filter((w) => w.length === 6);
+
       const word =
         words.length > 0
           ? words[Math.floor(Math.random() * words.length)]
           : "PUZZLE";
 
-      localStorage.setItem("dailyWord", JSON.stringify({ date: today, word }));
-      localStorage.setItem("dailyCompleted", "false"); // Resetuj stan dailyCompleted na nowy dzień
-      setDailyCompleted(false);
-      setTargetWord(word);
-    } catch (error) {
-      console.error("Error fetching word:", error);
-      setTargetWord("PUZZLE");
-    }
-  };
-  const fetchNewWord = async () => {
-    try {
-      const response = await fetch(ENGLISH_API);
-      const data = await response.json();
-      const words = data
-        .map((w) => w.word.toUpperCase())
-        .filter((w) => w.length === 6);
-      const word =
-        words.length > 0
-          ? words[Math.floor(Math.random() * words.length)]
-          : "PUZZLE";
-      setTargetWord(word);
-    } catch (error) {
-      console.error("Error fetching word:", error);
-      setTargetWord("PUZZLE");
-    }
-  };
+      if (isDaily) {
+        localStorage.setItem(
+          "dailyWord",
+          JSON.stringify({ date: today, word })
+        );
+        localStorage.setItem("dailyCompleted", "false");
+        setDailyCompleted(false);
+      }
 
-  const playSound = (src) => {
-    const audio = new Audio(src);
-    audio.play();
+      setTargetWord(word);
+    } catch (error) {
+      console.error("Error fetching word:", error);
+      setTargetWord("PUZZLE");
+    }
   };
 
   const handleInputChange = (e) => {
@@ -135,11 +124,12 @@ const Game = ({ mode }) => {
     setGuess(filteredValue);
   };
 
-  const getLetterColor = (letter, index) => {
-    if (targetWord[index] === letter) return "green";
-    if (targetWord.includes(letter)) return "orange";
-    return "gray";
-  };
+  const getLetterColor = (letter, index) =>
+    targetWord[index] === letter
+      ? "green"
+      : targetWord.includes(letter)
+      ? "orange"
+      : "gray";
 
   const revealLetters = (word, rowIndex) => {
     setIsRevealing(true);
@@ -168,25 +158,29 @@ const Game = ({ mode }) => {
 
     setAttempts([...attempts, guess]);
     setGuess("");
-
     revealLetters(guess, currentRow);
 
     setTimeout(() => {
+      let newMessage = "";
+      let sound = "error";
+
       if (guess === targetWord) {
-        setMessage("🎉 Congratulations! You won!");
-        setGameOver(true);
-        playSound("/sounds/win.mp3");
-        setDailyCompleted(true);
-        localStorage.setItem("dailyCompleted", "true"); // Zapisz stan ukończenia gry
+        newMessage = "🎉 Congratulations! You won!";
+        sound = "win";
       } else if (currentRow === 5) {
-        setMessage(`💀 You lost! The word was: ${targetWord}`);
-        setGameOver(true);
-        playSound("/sounds/lose.mp3");
-        setDailyCompleted(true);
-        localStorage.setItem("dailyCompleted", "true"); // Zapisz stan ukończenia gry
+        newMessage = `💀 You lost! The word was: ${targetWord}`;
+        sound = "lose";
       } else {
         setCurrentRow(currentRow + 1);
-        playSound("/sounds/error.mp3");
+      }
+
+      setMessage(newMessage);
+      setGameOver(newMessage !== "");
+      playSound(sound);
+
+      if (mode === "daily" && newMessage) {
+        setDailyCompleted(true);
+        localStorage.setItem("dailyCompleted", "true");
       }
     }, 3000);
   };
@@ -199,7 +193,6 @@ const Game = ({ mode }) => {
 
   return (
     <div className={`game-container ${mode}`}>
-      {/* Info o rozegranym trybie daily i czasie do nowego słowa */}
       {mode === "daily" && (gameOver || dailyCompleted) && (
         <div className="daily-info">
           <p>
@@ -211,7 +204,6 @@ const Game = ({ mode }) => {
         </div>
       )}
 
-      {/* Ukrywamy wiersze i input po rozegraniu trybu daily */}
       {!(mode === "daily" && dailyCompleted) && (
         <>
           <div className="attempts">
