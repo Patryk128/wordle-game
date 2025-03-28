@@ -1,0 +1,186 @@
+body {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.game-container {
+  text-align: center;
+}
+
+.attempts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.word {
+  display: flex;
+  justify-content: center;
+  margin: 5px 0;
+}
+
+.letter-box {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  border: 2px solid #444;
+  margin: 2px;
+  transition: transform 0.5s ease-in-out, background-color 0.3s ease-in-out;
+  background-color: transparent;
+}
+
+.input-container input {
+  background-color: #222;
+  color: #fff;
+  border: 2px solid #ffffff;
+  padding: 5px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.input-container button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.input-container button:hover {
+  background-color: #555;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #222;
+  padding: 20px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+.popup p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.popup button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.popup button:hover {
+  background-color: #555;
+}
+
+.flip {
+  animation: flip 0.5s ease-in-out forwards;
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    transform: rotateX(90deg);
+    background-color: transparent;
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+
+.input-container {
+  margin-top: 20px;
+}
+
+input {
+  font-size: 20px;
+  text-align: center;
+  padding: 5px;
+  width: 150px;
+  background-color: #222;
+  color: white;
+  border: 1px solid white;
+}
+
+input:disabled {
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+button {
+  margin-left: 10px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #444;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #222;
+  cursor: not-allowed;
+}
+
+.mode-selector button {
+  margin: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.mode-selector .active {
+  font-weight: bold;
+  color: #fff;
+}
+
+/*  */
+
+.app-container {
+  text-align: center;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.mode-switch {
+  margin-bottom: 20px;
+}
+
+.mode-btn {
+  background: #444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.mode-btn:hover {
+  background: #666;
+}
+
+.active-mode {
+  background: #00b894;
+  font-weight: bold;
+  transform: scale(1.1);
+}
