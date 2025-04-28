@@ -1,0 +1,36 @@
+/* index.css - Style globalne i podstawowe ustawienia strony */
+
+:root {
+  /* Możesz tu zdefiniować globalne zmienne CSS, jeśli chcesz */
+}
+
+body {
+  margin: 0; /* Resetowanie marginesu */
+  display: flex;
+  place-items: center; /* Centrowanie zawartości dla prostych układów */
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #121212; /* Globalne tło */
+  color: #ffffff; /* Globalny kolor tekstu */
+  font-family: Arial, sans-serif; /* Globalna czcionka */
+  text-align: center; /* Domyślne wyrównanie tekstu */
+}
+
+#root {
+  max-width: 1280px; /* Maksymalna szerokość głównego kontenera */
+  margin: 0 auto; /* Centrowanie głównego kontenera */
+  padding: 2rem; /* Wewnętrzny odstęp */
+  width: 100%; /* Zajmij dostępną szerokość w ramach max-width */
+  /* text-align: center; - Już ustawione w body, ale można zostawić dla pewności */
+}
+
+h1 {
+  font-size: 3.2em; /* Domyślny rozmiar dla głównego nagłówka */
+  line-height: 1.1; /* Domyślna wysokość linii */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

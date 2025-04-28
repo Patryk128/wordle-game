@@ -1,0 +1,323 @@
+/* app.css - Style specyficzne dla aplikacji i jej komponentów */
+
+.app-container {
+  text-align: center;
+  color: white; /* Nadpisuje/potwierdza kolor z body */
+  font-family: Arial, sans-serif; /* Nadpisuje/potwierdza czcionkę z body */
+}
+
+/* --- Style dla gry --- */
+.game-container {
+  text-align: center;
+  margin-top: 20px; /* Dodany odstęp dla lepszego wyglądu */
+}
+
+.attempts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.word {
+  display: flex;
+  justify-content: center;
+  margin: 5px 0;
+}
+
+.letter-box {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  border: 2px solid #444;
+  margin: 2px;
+  transition: transform 0.5s ease-in-out, background-color 0.3s ease-in-out;
+  background-color: transparent;
+  color: #ffffff; /* Upewnij się, że tekst w literach jest widoczny */
+}
+
+/* --- Style dla inputów i przycisków (ogólne w aplikacji) --- */
+input {
+  font-size: 20px;
+  text-align: center;
+  padding: 5px;
+  width: 150px; /* Rozważ użycie bardziej elastycznej szerokości */
+  background-color: #222;
+  color: white;
+  border: 1px solid white;
+  margin: 5px; /* Dodany mały margines */
+}
+
+input:disabled {
+  background-color: #444;
+  cursor: not-allowed;
+  opacity: 0.7; /* Lepsza wizualizacja stanu disabled */
+}
+
+button {
+  padding: 10px 20px; /* Ujednolicony padding */
+  font-size: 16px;
+  background-color: #444;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 5px; /* Dodany mały margines */
+  transition: background-color 0.3s ease; /* Płynne przejście */
+}
+
+button:hover {
+  background-color: #555;
+}
+
+button:disabled {
+  background-color: #222;
+  cursor: not-allowed;
+  opacity: 0.7; /* Lepsza wizualizacja stanu disabled */
+}
+
+/* --- Style dla specyficznego kontenera inputu (jeśli potrzebne nadpisania) --- */
+.input-container {
+  margin-top: 20px;
+  display: flex; /* Ułatwia pozycjonowanie inputu i przycisku */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Można usunąć .input-container input i .input-container button, jeśli ogólne style input/button są wystarczające */
+/* Jeśli potrzebujesz specyficznych stylów tylko tutaj: */
+.input-container input {
+  /* np. specyficzny margines tylko w tym kontenerze */
+  margin-right: 10px;
+  margin-left: 0;
+  width: 200px; /* Inna szerokość niż domyślna */
+  /* Inne nadpisania */
+}
+
+.input-container button {
+  /* np. brak lewego marginesu, bo jest prawy w inpucie */
+  margin-left: 0;
+  /* Inne nadpisania */
+}
+
+/* --- Style dla Popup --- */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7); /* Lekko ciemniejsze tło */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Upewnij się, że jest na wierzchu */
+}
+
+.popup {
+  /* Usunięto position: fixed, top, left, transform - overlay już centruje */
+  background-color: #222;
+  padding: 30px; /* Większy padding */
+  border: 2px solid #ffffff;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3); /* Wyraźniejszy cień */
+  text-align: center;
+  max-width: 90%; /* Ograniczenie szerokości na mniejszych ekranach */
+  width: 400px; /* Przykładowa szerokość */
+}
+
+.popup p {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px; /* Odstęp pod tekstem */
+}
+
+.popup button {
+  /* Style dziedziczone z ogólnego 'button', można dodać nadpisania */
+  background-color: #333; /* Inny kolor tła dla przycisków w popupie */
+  margin-top: 10px;
+}
+
+.popup button:hover {
+  background-color: #555; /* Spójne z ogólnym hover */
+}
+
+/* --- Animacja Flip --- */
+.flip {
+  animation: flip 0.6s ease-in-out forwards; /* Nieco dłuższa animacja */
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0deg);
+    background-color: transparent; /* Stan początkowy */
+    border-color: #444;
+  }
+  50% {
+    transform: rotateX(90deg);
+    background-color: #333; /* Kolor tła w połowie obrotu */
+    border-color: #555;
+  }
+  100% {
+    transform: rotateX(0deg);
+    /* Kolor tła i obramowania zostanie ustawiony przez JS/React po animacji */
+  }
+}
+
+/* --- Style dla przełącznika trybu --- */
+.mode-switch {
+  /* Starsza nazwa */
+  margin-bottom: 20px;
+}
+
+.mode-selector {
+  /* Nowsza nazwa */
+  margin: 20px 0; /* Dodany margines */
+}
+
+.mode-selector button, /* Stosuj do obu klas, jeśli występują */
+.mode-switch .mode-btn {
+  background: #444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.mode-selector button:hover,
+.mode-switch .mode-btn:hover {
+  background: #666;
+}
+
+.mode-selector .active, /* Stosuj do obu klas */
+.mode-switch .active-mode {
+  background: #00b894; /* Kolor aktywnego przycisku */
+  color: #121212; /* Ciemniejszy tekst dla lepszego kontrastu */
+  font-weight: bold;
+  transform: scale(1.05); /* Lekkie powiększenie aktywnego */
+  box-shadow: 0 0 10px rgba(0, 184, 148, 0.5); /* Delikatny cień dla aktywnego */
+}
+
+/* app.css - Dodaj te style do istniejącego pliku */
+
+/* --- Style dla tytułu aplikacji --- */
+.app-title {
+  margin-bottom: 1.5rem; /* Większy odstęp pod tytułem */
+  color: #00b894; /* Dopasuj kolor do aktywnego przycisku trybu */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Subtelny cień */
+}
+
+/* --- Style dla informacji w trybie Daily --- */
+.daily-info {
+  margin: 20px auto; /* Odstęp góra/dół i centrowanie */
+  padding: 15px;
+  border: 1px dashed #555; /* Delikatna ramka */
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.2); /* Lekko przezroczyste tło */
+  max-width: 400px; /* Ograniczenie szerokości */
+}
+
+.daily-info p {
+  margin: 8px 0; /* Odstępy między liniami tekstu */
+  font-size: 1em; /* Standardowy rozmiar czcionki */
+  color: #ccc; /* Jaśniejszy szary dla lepszej czytelności */
+}
+
+.daily-info strong {
+  color: #fff; /* Biały dla wyróżnionych fragmentów */
+  font-weight: bold;
+}
+
+.daily-info-message {
+  font-weight: bold; /* Pogrubienie głównej wiadomości */
+  color: #00b894; /* Zielony kolor dla wiadomości o wygranej/statusie */
+}
+
+/* Jeśli chcesz dodać specyficzne style dla słowa/czasu */
+.daily-info-word {
+  /* np. brak dodatkowych stylów na razie */
+}
+
+.daily-info-timer {
+  font-size: 0.9em; /* Nieco mniejsza czcionka dla timera */
+}
+
+/* --- Style dla specyficznych elementów gry --- */
+
+/* Styl dla inputu zgadywania (może dziedziczyć z ogólnego 'input') */
+.guess-input {
+  width: 200px; /* Możesz dostosować szerokość */
+  padding: 8px 12px; /* Wygodniejszy padding */
+  letter-spacing: 0.1em; /* Lepsze rozstawienie liter */
+  text-transform: uppercase; /* Automatycznie wielkie litery wizualnie */
+}
+
+/* Styl dla przycisku sprawdzania (może dziedziczyć z ogólnego 'button') */
+.submit-button {
+  padding: 10px 25px; /* Dostosowany padding */
+  font-weight: bold;
+}
+
+/* --- Style dla specyficznych elementów popupa --- */
+
+/* Styl dla wiadomości w popupie */
+.popup-message {
+  font-size: 1.2em; /* Nieco większa czcionka dla wiadomości */
+  margin-bottom: 20px; /* Większy odstęp pod wiadomością */
+  color: #eee; /* Jaśniejszy kolor tekstu */
+}
+
+/* Styl dla przycisku "Zagraj Ponownie" (może dziedziczyć z 'button' i '.popup button') */
+.play-again-button {
+  min-width: 150px; /* Minimalna szerokość przycisku */
+  font-weight: bold;
+  background-color: #00b894; /* Zielony przycisk akcji */
+  color: #121212; /* Ciemny tekst dla kontrastu */
+}
+
+.play-again-button:hover {
+  background-color: #00a080; /* Ciemniejszy zielony po najechaniu */
+}
+
+/* Opcjonalnie: Dodaj style dla trybów gry, jeśli potrzebujesz */
+.game-container.daily {
+  /* Style specyficzne tylko dla trybu daily */
+  /* np. border: 2px solid blue; */
+}
+
+.game-container.endless {
+  /* Style specyficzne tylko dla trybu endless */
+  /* np. border: 2px solid green; */
+}
+
+/* Poprawka animacji flip dla kolorów */
+@keyframes flip {
+  0% {
+    transform: rotateX(0deg);
+    background-color: transparent;
+    border-color: #444;
+  }
+  49.9% {
+    transform: rotateX(90deg);
+    background-color: transparent; /* Tło zmienia się dopiero po pełnym obrocie */
+    border-color: #555;
+  }
+  50% {
+    transform: rotateX(90deg);
+    /* Kolor tła zostanie ustawiony przez JS w style */
+  }
+  100% {
+    transform: rotateX(0deg);
+    /* Kolor tła i obramowania są już ustawione przez JS */
+  }
+}
+
+/* Dostosuj czas animacji do opóźnienia w JS (np. 0.6s / 2 = 300ms opóźnienia) */
+.letter-box.flip {
+  animation: flip 0.6s ease-in-out forwards;
+}
