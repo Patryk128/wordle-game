@@ -1,32 +1,25 @@
-/* index.css - Style globalne i podstawowe ustawienia strony */
-
-:root {
-  /* Możesz tu zdefiniować globalne zmienne CSS, jeśli chcesz */
-}
-
 body {
-  margin: 0; /* Resetowanie marginesu */
+  margin: 0;
   display: flex;
-  place-items: center; /* Centrowanie zawartości dla prostych układów */
+  place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #121212; /* Globalne tło */
-  color: #ffffff; /* Globalny kolor tekstu */
-  font-family: Arial, sans-serif; /* Globalna czcionka */
-  text-align: center; /* Domyślne wyrównanie tekstu */
+  background-color: #121212;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  text-align: center;
 }
 
 #root {
-  max-width: 1280px; /* Maksymalna szerokość głównego kontenera */
-  margin: 0 auto; /* Centrowanie głównego kontenera */
-  padding: 2rem; /* Wewnętrzny odstęp */
-  width: 100%; /* Zajmij dostępną szerokość w ramach max-width */
-  /* text-align: center; - Już ustawione w body, ale można zostawić dla pewności */
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
 }
 
 h1 {
-  font-size: 3.2em; /* Domyślny rozmiar dla głównego nagłówka */
-  line-height: 1.1; /* Domyślna wysokość linii */
+  font-size: 3.2em;
+  line-height: 1.1;
 }
 
 *,

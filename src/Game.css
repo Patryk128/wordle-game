@@ -1,249 +1,26 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-body {
-  background-color: #121212;
-  color: #ffffff;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-.game-container {
-  text-align: center;
-}
-
-.attempts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.word {
-  display: flex;
-  justify-content: center;
-  margin: 5px 0;
-}
-
-.letter-box {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  border: 2px solid #444;
-  margin: 2px;
-  transition: transform 0.5s ease-in-out, background-color 0.3s ease-in-out;
-  background-color: transparent;
-}
-
-.input-container input {
-  background-color: #222;
-  color: #fff;
-  border: 2px solid #ffffff;
-  padding: 5px;
-  font-size: 18px;
-  text-align: center;
-}
-
-.input-container button {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin-left: 10px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.input-container button:hover {
-  background-color: #555;
-}
-
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #222;
-  padding: 20px;
-  border: 2px solid #ffffff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  text-align: center;
-}
-
-.popup p {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.popup button {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin-top: 10px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.popup button:hover {
-  background-color: #555;
-}
-
-.flip {
-  animation: flip 0.5s ease-in-out forwards;
-}
-
-@keyframes flip {
-  0% {
-    transform: rotateX(0);
-  }
-  50% {
-    transform: rotateX(90deg);
-    background-color: transparent;
-  }
-  100% {
-    transform: rotateX(0);
-  }
-}
-
-.input-container {
-  margin-top: 20px;
-}
-
-input {
-  font-size: 20px;
-  text-align: center;
-  padding: 5px;
-  width: 150px;
-  background-color: #222;
-  color: white;
-  border: 1px solid white;
-}
-
-input:disabled {
-  background-color: #444;
-  cursor: not-allowed;
-}
-
-button {
-  margin-left: 10px;
-  padding: 10px;
-  font-size: 16px;
-  background-color: #444;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: #222;
-  cursor: not-allowed;
-}
-
-.mode-selector button {
-  margin: 10px;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.mode-selector .active {
-  font-weight: bold;
-  color: #fff;
-}
-
-
-.app-container {
-  text-align: center;
-  color: white;
-  font-family: Arial, sans-serif;
-}
-
-.mode-switch {
-  margin-bottom: 20px;
-}
-
-.mode-btn {
-  background: #444;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
-
-.mode-btn:hover {
-  background: #666;
-}
-
-.active-mode {
-  background: #00b894;
-  font-weight: bold;
-  transform: scale(1.1);
-} */
-
-/* app.css / Game.css - Dodaj te style */
-
-/* --- Style dla informacji w trybie Daily --- */
 .daily-info {
   margin: 20px auto;
-  padding: 15px 20px; /* Dopasowany padding */
+  padding: 15px 20px;
   border: 1px dashed #555;
   border-radius: 8px;
-  background-color: rgba(40, 40, 40, 0.5); /* Ciemniejsze tło */
+  background-color: rgba(40, 40, 40, 0.5);
   max-width: 400px;
-  color: #ccc; /* Domyślny kolor tekstu */
+  color: #ccc;
 }
 
 .daily-info p {
-  margin: 10px 0; /* Zwiększony margines */
+  margin: 10px 0;
   font-size: 1em;
-  line-height: 1.4; /* Poprawiona wysokość linii */
+  line-height: 1.4;
 }
 
 .daily-info strong {
   color: #fff;
   font-weight: bold;
-  margin-left: 5px; /* Mały odstęp przed pogrubionym tekstem */
+  margin-left: 5px;
 }
 
-/* Klasy dla poszczególnych linii w .daily-info */
 .daily-info-word {
-  /* Można dodać specyficzne style, jeśli potrzeba */
 }
 
 .daily-info-timer {
@@ -252,81 +29,67 @@ button:disabled {
 
 .daily-info-message {
   font-weight: bold;
-  font-size: 1.1em; /* Nieco większa wiadomość o stanie */
-  color: #00b894; /* Zielony dla pozytywnych wiadomości (dostosuj wg potrzeb) */
-  margin-top: 15px; /* Większy odstęp nad wiadomością */
+  font-size: 1.1em;
+  color: #00b894;
+  margin-top: 15px;
 }
 
-/* --- Style dla specyficznych elementów gry --- */
-
-/* Styl dla inputu zgadywania */
 .guess-input {
-  width: clamp(150px, 50%, 220px); /* Elastyczna szerokość z ograniczeniami */
-  padding: 10px 15px; /* Wygodniejszy padding */
-  font-size: 1.1em; /* Nieco większa czcionka */
+  width: clamp(150px, 50%, 220px);
+  padding: 10px 15px;
+  font-size: 1.1em;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  border: 1px solid #666; /* Ciemniejsza ramka */
-  border-radius: 4px; /* Lekko zaokrąglone rogi */
+  border: 1px solid #666;
+  border-radius: 4px;
 }
 .guess-input:focus {
-  border-color: #fff; /* Jaśniejsza ramka przy fokusie */
-  outline: none; /* Usunięcie domyślnego outline */
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); /* Subtelny cień przy fokusie */
+  border-color: #fff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
-/* Styl dla przycisku sprawdzania */
 .submit-button {
   padding: 10px 25px;
   font-weight: bold;
-  border-radius: 4px; /* Dopasowanie do inputu */
-  margin-left: 10px; /* Odstęp od inputu */
+  border-radius: 4px;
+  margin-left: 10px;
 }
 
-/* --- Style dla specyficznych elementów popupa --- */
-
-/* Styl dla wiadomości w popupie */
 .popup-message {
-  font-size: 1.25em; /* Zwiększona czcionka */
-  margin-bottom: 25px; /* Zwiększony odstęp */
+  font-size: 1.25em;
+  margin-bottom: 25px;
   color: #eee;
-  line-height: 1.5; /* Lepsza czytelność dłuższych wiadomości */
+  line-height: 1.5;
 }
 
-/* Styl dla przycisku "Zagraj Ponownie" / "OK" */
 .play-again-button {
-  min-width: 160px; /* Zwiększona minimalna szerokość */
+  min-width: 160px;
   font-weight: bold;
   background-color: #00b894;
   color: #121212;
-  border-radius: 5px; /* Zaokrąglenie */
-  padding: 12px 20px; /* Zwiększony padding */
-  transition: background-color 0.2s ease, transform 0.1s ease; /* Płynniejsze przejścia */
+  border-radius: 5px;
+  padding: 12px 20px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .play-again-button:hover {
   background-color: #00a080;
-  transform: scale(1.03); /* Lekkie powiększenie przy najechaniu */
+  transform: scale(1.03);
 }
 
 .play-again-button:active {
-  transform: scale(0.98); /* Lekkie zmniejszenie przy kliknięciu */
+  transform: scale(0.98);
 }
 
-/* --- Opcjonalne: Ulepszenia wizualne --- */
-
-/* Lepsze style dla letter-box (można dodać/zmodyfikować w istniejącej regule .letter-box) */
 .letter-box {
-  /* ... istniejące style ... */
-  border-radius: 3px; /* Lekkie zaokrąglenie */
-  /* Poprawa widoczności tekstu na różnych tłach */
+  border-radius: 3px;
   color: white;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-  display: flex; /* Użyj flexboxa do centrowania */
+  display: flex;
   align-items: center;
   justify-content: center;
-  line-height: 1; /* Usuń line-height, flex zajmie się centrowaniem */
-  /* Można dodać inne kolory dla stanów */
+  line-height: 1;
 }
 
 .letter-box.green {
@@ -336,11 +99,8 @@ button:disabled {
 .letter-box.yellow {
   background-color: #f1c40f;
   border-color: #f1c40f;
-} /* Zmieniono z orange na yellow */
+}
 .letter-box.gray {
   background-color: #7f8c8d;
   border-color: #7f8c8d;
 }
-
-/* Jeśli nie używasz inline style, a zamiast tego dodajesz klasy kolorów */
-/* Musisz zmodyfikować logikę w komponencie, aby dodawał klasy 'green', 'yellow', 'gray' zamiast ustawiać style inline */
