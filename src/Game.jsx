@@ -49,7 +49,6 @@ const Game = ({ mode }) => {
     const now = new Date();
     const nextMidnight = new Date(now);
     nextMidnight.setUTCHours(24, 0, 0, 0);
-
     const diff = nextMidnight - now;
     setTimeLeft(new Date(diff).toISOString().substr(11, 8));
   };
@@ -134,14 +133,12 @@ const Game = ({ mode }) => {
   const revealLetters = (word, rowIndex) => {
     setIsRevealing(true);
     setRevealedLetters([]);
-
     let newLetterColors = { ...letterColors };
 
     word.split("").forEach((letter, i) => {
       setTimeout(() => {
         const color = getLetterColor(letter, i);
         newLetterColors[`${rowIndex}-${i}`] = color;
-
         setLetterColors({ ...newLetterColors });
         setRevealedLetters((prev) => [...prev, { letter, rowIndex, index: i }]);
 
@@ -193,26 +190,17 @@ const Game = ({ mode }) => {
 
   return (
     <div className={`game-container ${mode}`}>
-      {/* Sekcja informacyjna dla trybu Daily */}
       {mode === "daily" && (gameOver || dailyCompleted) && (
         <div className="daily-info">
-          {/* Dodane klasy dla akapitów */}
           <p className="daily-info-word">
-            {" "}
-            {/* <--- Dodana klasa */}
             🔒 Daily word: <strong>{targetWord}</strong>
           </p>
           <p className="daily-info-timer">
-            {" "}
-            {/* <--- Dodana klasa */}
             🕛 New word in: <strong>{timeLeft}</strong>
           </p>
-          {/* Opcjonalnie można dodać też message tutaj, jeśli chcesz */}
-          {/* {message && <p className="daily-info-message">{message}</p>} */}
         </div>
       )}
 
-      {/* Siatka gry i input (ukryte jeśli Daily ukończone) */}
       {!(mode === "daily" && dailyCompleted) && (
         <>
           <div className="attempts">
@@ -231,8 +219,8 @@ const Game = ({ mode }) => {
 
                   return (
                     <span
-                      key={i} // Klucz pozostaje taki sam
-                      className={`letter-box ${flipClass}`} // Klasy bez zmian, flip jest dynamiczny
+                      key={i}
+                      className={`letter-box ${flipClass}`}
                       style={{ backgroundColor: bgColor }}
                     >
                       {letter}
@@ -243,7 +231,6 @@ const Game = ({ mode }) => {
             ))}
           </div>
 
-          {/* Input i przycisk (tylko gdy gra nie jest skończona) */}
           {!gameOver && (
             <div className="input-container">
               <input
@@ -254,13 +241,13 @@ const Game = ({ mode }) => {
                 onKeyDown={handleKeyDown}
                 maxLength={6}
                 disabled={isRevealing}
-                className="guess-input" // <--- Dodana klasa
-                placeholder="Enter guess..." // Placeholder dodany dla użyteczności
+                className="guess-input"
+                placeholder="Enter guess..."
               />
               <button
                 onClick={handleSubmit}
-                disabled={isRevealing || guess.length !== 6} // Dodano warunek długości guess
-                className="submit-button" // <--- Dodana klasa
+                disabled={isRevealing || guess.length !== 6}
+                className="submit-button"
               >
                 Check
               </button>
@@ -269,20 +256,11 @@ const Game = ({ mode }) => {
         </>
       )}
 
-      {/* Popup końca gry */}
       {gameOver && (
-        // W tej wersji zostawiono oryginalne onClick={resetGameState}
-        // dla overlay i przycisku, zgodnie z poleceniem niemodyfikowania funkcji
         <div className="popup-overlay" onClick={resetGameState}>
           <div className="popup" onClick={(e) => e.stopPropagation()}>
-            {/* Dodana klasa dla wiadomości */}
-            <p className="popup-message">{message}</p> {/* <--- Dodana klasa */}
-            {/* Dodana klasa dla przycisku */}
-            <button
-              className="play-again-button" // <--- Dodana klasa
-              onClick={resetGameState}
-            >
-              {/* Dostosowanie tekstu przycisku dla różnych trybów */}
+            <p className="popup-message">{message}</p>
+            <button className="play-again-button" onClick={resetGameState}>
               {mode === "daily" && dailyCompleted ? "OK" : "Play Again"}
             </button>
           </div>
