@@ -61,7 +61,6 @@ const Game = ({ mode }) => {
   const sounds = {
     win: "/sounds/win.mp3",
     lose: "/sounds/lose.mp3",
-    error: "/sounds/error.mp3",
   };
 
   const playSound = (type) => new Audio(sounds[type]).play();
@@ -164,7 +163,7 @@ const Game = ({ mode }) => {
 
     setTimeout(() => {
       let newMessage = "";
-      let sound = "error";
+      let sound = "";
 
       if (guess === targetWord) {
         newMessage = "🎉 Congratulations! You won!";
