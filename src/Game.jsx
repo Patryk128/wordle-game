@@ -6,17 +6,7 @@ const wordLength = import.meta.env.VITE_ENGLISH_API_WORD_LENGTH;
 const maxResults = import.meta.env.VITE_ENGLISH_API_MAX_RESULTS;
 
 const pattern = "?".repeat(Number(wordLength));
-
 const url = `${baseURL}?sp=${pattern}&max=${maxResults}`;
-
-try {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
-} catch (error) {
-  console.error("Błąd pobierania danych z Datamuse API:", error);
-}
 
 const Game = ({ mode }) => {
   const [targetWord, setTargetWord] = useState("");
